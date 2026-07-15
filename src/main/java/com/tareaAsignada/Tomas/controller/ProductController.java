@@ -17,11 +17,13 @@ public class ProductController {
     private final ProductService productService;
 
     public ProductController(ProductService productService){
+
         this.productService = productService;
     }
 
     @GetMapping("")
     public ResponseEntity<List<Product>> getAllProducts(){
+
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
@@ -52,6 +54,13 @@ public class ProductController {
         productService.deleteProduct(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product){
+        return productService.updateProduct(id,product)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 
